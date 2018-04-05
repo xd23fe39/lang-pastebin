@@ -10,41 +10,28 @@ package com.sample;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.io.*;
+// import java.sql.*;
 
-public class OracleJDBCExample {
+public class Demo 
+{
+    public static void main(String[] args)throws IOException, SQLException
+    {
+        String sql = "select * from table" ;
 
-    public static void main(String[] argv) {
-
-        try {
-
+        try
+        {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-
-        } catch (ClassNotFoundException e) {
-
-            e.printStackTrace();
-            return;
-
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","user","password");
+            Statement stmt = con.createStatement();
+            stmt.execute(sql);
+            con.close();
         }
 
-        Connection connection = null;
-
-        try {
-
-            connection = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@localhost:1521:xe", "system", "password");
-
-        } catch (SQLException e) {
-
+        catch(Exception e)
+        {
+            System.out.println("Exception: " + e);
             e.printStackTrace();
-            return;
-
-        }
-
-        if (connection != null) {
-            System.out.println("You made it, take control your database now!");
-        } else {
-            System.out.println("Failed to make connection!");
         }
     }
-
 }
